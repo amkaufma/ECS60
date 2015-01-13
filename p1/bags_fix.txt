@@ -1,0 +1,107 @@
+46c46,47
+< 					infile.get(next);
+---
+> 					next = infile.peek();
+> 					//infile.get(next);
+48a50
+> 						infile.get(next);
+58c60,61
+< 					infile.get(next);
+---
+> 					next = infile.peek();
+> 					//infile.get(next);
+61,62c64
+< 						end = mystack.top();
+< 						if(end->c == '/' && end->c2 == '*')
+---
+> 						if(!mystack.isEmpty())
+64,65c66,81
+< 							mystack.pop();
+< 							comment = false;		//end comment
+---
+> 							infile.get(next);
+> 							end = mystack.top();
+> 							if(end->c == '/' && end->c2 == '*')
+> 							{
+> 								mystack.pop();
+> 								comment = false;		//end comment
+> 							}
+> 						}
+> 						else
+> 						{
+> 							ptr->c = current;
+> 							ptr->c2 = next;
+> 							ptr->line = count;
+> 							mystack.push(ptr);
+> 							ptr = new Token;
+> 							done = true;
+66a83
+> 					
+77,92d93
+< 				case '{':
+< 					if(comment)
+< 						break;			//if within comment, don't push bracket
+< 					ptr->line = count;
+< 					ptr->c = current;
+< 					mystack.push(ptr);
+< 					ptr = new Token;
+< 					break;
+< 				case '(':
+< 					if(comment)			//if within comment, don't push bracket
+< 						break;
+< 					ptr->line = count;
+< 					ptr->c = current;
+< 					mystack.push(ptr);
+< 					ptr = new Token;
+< 					break;
+96,98c97,102
+< 					end = mystack.top();
+< 					if(end->c == '[')
+< 						mystack.pop();
+---
+> 					if(!mystack.isEmpty())
+> 					{
+> 						end = mystack.top();
+> 						if(end->c == '[')
+> 							mystack.pop();
+> 					}
+107a112,119
+> 				case '{':
+> 					if(comment)
+> 						break;			//if within comment, don't push bracket
+> 					ptr->line = count;
+> 					ptr->c = current;
+> 					mystack.push(ptr);
+> 					ptr = new Token;
+> 					break;
+111,113c123,128
+< 					end = mystack.top();
+< 					if(end->c == '{')
+< 						mystack.pop();
+---
+> 					if(!mystack.isEmpty())
+> 					{
+> 						end = mystack.top();
+> 						if(end->c == '{')
+> 							mystack.pop();
+> 					}
+122a138,145
+> 				case '(':
+> 					if(comment)			//if within comment, don't push bracket
+> 						break;
+> 					ptr->line = count;
+> 					ptr->c = current;
+> 					mystack.push(ptr);
+> 					ptr = new Token;
+> 					break;
+126,128c149,154
+< 					end = mystack.top();
+< 					if(end->c == '(')
+< 						mystack.pop();
+---
+> 					if(!mystack.isEmpty())
+> 					{
+> 						end = mystack.top();
+> 						if(end->c == '(')
+> 							mystack.pop();
+> 					}
